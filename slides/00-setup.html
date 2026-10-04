@@ -1,0 +1,108 @@
+<!doctype html><html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>第0回 環境構築・事前準備 | 情報科学演習III</title><link rel="stylesheet" href="../assets/slides.css"></head><body><main class="deck"><section class="slide-page cover" data-title="第0回 環境構築・事前準備"><div class="hint">← → キーで移動</div><div class="eyebrow">情報科学演習III</div><h1>Webアプリケーション開発</h1><div class="subtitle">第0回　環境構築・事前準備</div><div class="author">鄭</div></section><section class="slide-page " data-title="情報科学演習IIからIIIへ"><div class="hint">← → キーで移動</div><div class="cols content"><div class="card"><h3>情報科学演習II</h3><div class="flow">Pythonプログラム
+      ↓
+Git / GitHub
+      ↓
+チーム開発
+      ↓
+Package / Release</div></div><div class="card"><h3>情報科学演習III</h3><div class="flow">Webアプリケーション
+      ↓
+Frontend / Backend
+      ↓
+HTTP / API
+      ↓
+Database
+      ↓
+Publish</div></div></div><div class="notice content"><b>IIで学んだGit/GitHubとチーム開発を活用して、IIIではWebアプリケーションの開発に挑戦します。</b></div></section><section class="slide-page " data-title="3回で何をする？"><div class="hint">← → キーで移動</div><div class="three content"><div class="card"><h3><span class="step">1</span>動かす</h3><p>Docker<br>Container</p></div><div class="card"><h3><span class="step">2</span>つなぐ</h3><p>Frontend / Backend<br>HTTP / API</p></div><div class="card"><h3><span class="step">3</span>残す・公開する</h3><p>Database / CRUD<br>Publish</p></div></div><p class="big center" style="margin-top:1.2em">最終的には、他チームがブラウザからアクセスできる<br><span class="accent">Webアプリケーションを公開</span>します。</p></section><section class="slide-page " data-title="第0回のゴール"><div class="hint">← → キーで移動</div><p class="big">第1回からすぐに開発を始められるように、<br><span class="accent">Team Repositoryと開発環境</span>を準備します。</p><div class="flow content">Starterを取得
+      ↓
+Team Repositoryを作成
+      ↓
+Team Memberを追加
+      ↓
+Codespacesを起動
+      ↓
+Starter Web Appを確認</div><div class="notice content">Git/GitHubの基本操作は情報科学演習IIで学習済みとして進めます。</div></section><section class="slide-page " data-title="Starter Repositoryを取得する"><div class="hint">← → キーで移動</div><div class="content"><h3><span class="step">1</span>Starter Repositoryをcloneする</h3><p>教員が用意したStarter Repositoryから開発を開始します。</p><p><b>Repository：</b> <code>jj-zheng/infoexp3-webapp-starter</code></p><pre><code>git clone https://github.com/jj-zheng/infoexp3-webapp-starter.git infoexp3-teamXX
+cd infoexp3-teamXX
+git remote -v</code></pre><p class="muted">例：Team 03 → <code>infoexp3-team03</code></p><div class="notice">💡 <code>git clone</code> の意味を忘れた場合は、情報科学演習IIの資料を確認してください。</div></div></section><section class="slide-page " data-title="Team Repositoryを作る"><div class="hint">← → キーで移動</div><div class="content"><h3><span class="step">2</span>Team LeaderのGitHubにRepositoryを作成する</h3><div class="cols"><div><p><b>この操作はTeam Leaderが行います。</b></p><div class="ui-box">New repository
+
+Repository name
+infoexp3-teamXX
+
+Visibility
+Public
+
+☐ Add a README file
+☐ Add .gitignore
+☐ Choose a license</div></div><div><div class="warn notice"><b>空のRepositoryを作成してください。</b><br>READMEなどは追加しません。</div><p>このRepositoryが、これからの<span class="accent">チーム開発の中心</span>になります。</p></div></div></div></section><section class="slide-page " data-title="originをTeam Repositoryへ変更"><div class="hint">← → キーで移動</div><div class="content"><div class="cols"><div><h3>Before</h3><div class="flow">local repository
+      │
+      └─ origin
+            ↓
+jj-zheng/
+infoexp3-webapp-starter</div></div><div><h3>After</h3><div class="flow">local repository
+      │
+      └─ origin
+            ↓
+Team Leader/
+infoexp3-teamXX</div></div></div><pre><code># ① 現在の接続先を確認
+git remote -v
+
+# ② 教員Starterへのoriginを外し、Team Repositoryへつなぎ替える
+git remote remove origin
+git remote add origin https://github.com/&lt;TEAM-LEADER&gt;/infoexp3-teamXX.git
+
+# ③ Team Repositoryへpush
+git push -u origin main
+
+# ④ もう一度確認
+git remote -v</code></pre><div class="notice">最後の <code>git remote -v</code> がTeam Leaderの <code>infoexp3-teamXX</code> を指していればOKです。</div></div></section><section class="slide-page " data-title="Team Memberを追加する"><div class="hint">← → キーで移動</div><div class="content"><h3><span class="step">3</span>Team MemberをRepositoryに追加する</h3><div class="flow">Repository
+   ↓
+Settings
+   ↓
+Collaborators
+   ↓
+Add people</div><p>Team Memberは招待を承認してください。</p><div class="ok notice"><b>確認：</b><br>✓ Team LeaderがRepositoryを開ける<br>✓ Team Memberが招待を承認し、Repositoryを開ける</div><p class="muted">書き込み権限は第1回のbranch / push / Pull Requestで自然に確認します。</p></div></section><section class="slide-page " data-title="ここからがIIIの新しい環境"><div class="hint">← → キーで移動</div><div class="hook">GitHub Codespaces</div><div class="cols content" style="margin-top:1.5em"><div class="card"><h3>これまで</h3><div class="flow">自分のPC
+   ↓
+Pythonを実行</div></div><div class="card"><h3>今回</h3><div class="flow">GitHub Repository
+       ↓
+    Codespace
+       ↓
+クラウド上の開発環境</div></div></div><p class="content center">ブラウザから、コード編集・Terminal操作・Webアプリの実行ができます。</p></section><section class="slide-page " data-title="Codespaceを起動する"><div class="hint">← → キーで移動</div><div class="content"><h3><span class="step">4</span>Codespacesを起動する</h3><div class="flow">Team Repository
+      ↓
+     Code
+      ↓
+  Codespaces
+      ↓
+Create codespace on main</div><p>初回は環境の準備に少し時間がかかります。</p><div class="ui-box">┌────────────┬──────────────────────┐
+│ Explorer   │ Editor               │
+│ files      │ app.py               │
+├────────────┴──────────────────────┤
+│ Terminal                         │
+│ $                                │
+└──────────────────────────────────┘</div></div></section><section class="slide-page " data-title="開発環境を確認する"><div class="hint">← → キーで移動</div><div class="content"><h3><span class="step">5</span>必要なツールを確認する</h3><pre><code>python --version
+git --version
+docker --version
+
+docker run --rm hello-world</code></pre><div class="ok notice">✓ <code>Python 3.12.x</code>　✓ Git　✓ Docker<br><b>Hello from Docker!</b> が表示されればOKです。</div><p class="big center">Dockerとは何でしょうか？ <span class="arrow">→</span> 第1回で学びます。</p></div></section><section class="slide-page " data-title="Starter Web Appを起動する"><div class="hint">← → キーで移動</div><div class="content"><h3><span class="step">6</span>Webアプリケーションを起動してみる</h3><pre><code>python app.py</code></pre><div class="cols"><div><div class="ui-box">* Running on all addresses (0.0.0.0)
+* Running on http://127.0.0.1:5000
+* Running on http://10.x.x.x:5000</div><p>下部の <b>ポート / PORTS</b> → <b>MiniBoard (5000)</b> → 転送されたアドレスを <b>ブラウザーで開く</b>。</p></div><div class="ui-box">Browser
+   ↓
+https://…-5000.app.github.dev
+   ↓
+Codespaces :5000
+   ↓
+MiniBoard</div></div><div class="warn notice"><b>127.0.0.1 や 10.x.x.x をMacのブラウザへ直接入力しません。</b><br>Codespacesが発行する転送URLを開きます。</div><div class="notice"><b>第0回では表示範囲は 🔒 Private のまま。</b> Publicへの変更は第3回で行います。</div></div></section><section class="slide-page " data-title="なぜブラウザから見える？"><div class="hint">← → キーで移動</div><div class="hook">なぜPythonのプログラムが<br>ブラウザから見えるのでしょうか？</div><div class="flow content center" style="margin-top:1.5em;min-width:55vw">Browser
+   │
+   │ https://…-5000.app.github.dev
+   ▼
+Codespaces
+   │
+   │  ???
+   ▼
+Python / app.py :5000</div><div class="content center"><p>なぜTerminalに表示されたURLと、ブラウザのURLが違う？</p><p><code>5000</code> は何を表している？</p><p class="accent">答えは第1回以降で、実際に動かしながら考えます。</p></div></section><section class="slide-page " data-title="準備できましたか？"><div class="hint">← → キーで移動</div><div class="content check"><p>□ Starter Repositoryをcloneした</p><p>□ Team LeaderのGitHubにTeam Repositoryを作成した</p><p>□ originをTeam Repositoryへ変更した</p><p>□ Team MemberがRepositoryへアクセスできる</p><p>□ Codespacesを起動できる</p><p>□ Python / Git / Dockerが利用できる</p><p>□ Port 5000をPrivateのままブラウザで開き、MiniBoardを確認できる</p><div class="ok notice big center">全部できたら、準備完了！</div></div></section><section class="slide-page " data-title="次回"><div class="hint">← → キーで移動</div><div class="eyebrow">第1回</div><div class="hook">DockerでWebアプリケーションを動かす</div><div class="flow content center" style="margin-top:1.5em;min-width:55vw">Source Code
+     ↓
+Dockerfile
+     ↓
+Image
+     ↓
+Container
+     ↓
+Web App</div><p class="big center">「動いた」から、「どこでも同じように動く」へ。</p></section></main><div class="progress"></div><div class="controls"><a href="../index.html">ホーム</a><button data-prev>Previous slide</button><button data-next>Next slide</button><button data-full>Toggle fullscreen</button><button data-presenter>Open presenter view</button><span class="counter"></span></div><script src="../assets/slides.js"></script></body></html>

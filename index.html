@@ -1,0 +1,30 @@
+<!doctype html><html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>ホーム | 情報科学演習III</title><link rel="stylesheet" href="assets/style.css"></head><body><header><div class="wrap"><div class="brand">情報科学演習III <small>Webアプリケーション開発</small></div><nav><a href="index.html">ホーム</a><a href="slides/00-setup.html">第0回</a><a href="slides/01-docker-web.html">第1回</a><a href="slides/02-http-api.html">第2回</a><a href="slides/03-db-publish.html">第3回</a><a href="reference/festival-hub.html">提出ハブ</a></nav></div></header><section class="hero"><div class="wrap"><div class="kicker">情報科学演習III</div><h1>Webアプリケーション開発</h1><p class="lead">Dockerで動かし、HTTP/APIでつなぎ、SQLiteに残し、URLで他のユーザに届ける。情報科学演習IIで経験したGit/GitHub・PR・レビュー・AI支援開発を、複数要素からなるWebシステムの統合へ発展させます。</p><div class="flow">第0回  準備する
+   ↓
+第1回  動かす      Docker / Container / Web Server
+   ↓
+第2回  つなぐ      Frontend / Backend / HTTP / REST API
+   ↓
+第3回  残す・公開する  SQLite / CRUD / Codespaces / Web App Festival</div></div></section>
+<main class="wrap">
+<div class="notice"><b>📢 演習資料について：</b> 第0回「環境構築・事前準備」は、各グループのWebアプリケーション開発が始まる前に完了してください。第1回〜第3回の資料は現在準備・調整中であり、授業内容に合わせて更新する可能性があります。各回の授業前に最新版を確認してください。</div>
+<h2>到達目標</h2><div class="grid"><div class="card"><span class="tag">01</span><h3>動かす</h3><p>Dockerfile・Image・Containerの関係を説明し、Webアプリをコンテナで実行できる。</p></div><div class="card"><span class="tag">02</span><h3>つなぐ</h3><p>Frontend / Backend / HTTP / API の役割と、ブラウザからサーバまでの処理の流れを説明できる。</p></div><div class="card"><span class="tag green">03</span><h3>残す</h3><p>REST/CRUDとSQLiteを用いて、複数ユーザで共有される状態を持つWebアプリを実装できる。</p></div><div class="card"><span class="tag violet">04</span><h3>届ける</h3><p>GitHub上の成果をCodespacesで一時公開し、URLを通して他チームに利用してもらえる。</p></div></div>
+<h2>授業構成（各150分）</h2><table><tr><th>回</th><th>テーマ</th><th>主な内容</th><th>その日の完成状態</th></tr><tr><td>第0回</td><td>環境構築・事前準備</td><td>Starter clone / Team Repository / Codespaces / Web App確認</td><td>Team Repositoryと開発環境の準備が完了</td></tr><tr><td>第1回</td><td>DockerでWebアプリを動かす</td><td>Dockerfile, Image, Container, port, Flask</td><td>MiniBoardの画面がブラウザに見える</td></tr><tr><td>第2回</td><td>FrontendとBackendをつなぐ</td><td>HTTP, GET/POST, JSON, REST API, fetch</td><td>投稿が画面に追加できる</td></tr><tr><td>第3回</td><td>DBに残し、公開する</td><td>SQLite, CRUD, Codespaces public port, Festival</td><td>他チームが同じアプリを利用できる</td></tr></table>
+<div class="notice"><b>IIから引き継ぐもの：</b> Issue → Branch → 実装 → 確認 → Pull Request → Review → Merge。Git/GitHubの操作そのものは再講義せず、Webシステム開発の道具として使います。</div>
+<h2>教材</h2><div class="grid"><div class="card"><h3>🎓 講義スライド</h3><p><a href="slides/00-setup.html">第0回 環境構築・事前準備</a><br><a href="slides/01-docker-web.html">第1回 Dockerで動かす</a><br><a href="slides/02-http-api.html">第2回 HTTP/APIでつなぐ</a><br><a href="slides/03-db-publish.html">第3回 DBに残し公開する</a></p></div><div class="card"><h3>🛠 Hands-on</h3><p><a href="reference/codespaces-guide.html">Codespacesガイド</a><br><a href="reference/docker-cheatsheet.html">Dockerチートシート</a><br><a href="reference/api-debug.html">APIデバッグガイド</a></p></div><div class="card"><h3>🌐 Festival</h3><p><a href="reference/festival-hub.html">提出ハブ（テンプレート）</a><br><a href="files/worksheet-week3.md">Festival worksheet</a></p></div><div class="card"><h3>📝 評価</h3><p><a href="reference/assessment.html">成績評価・出席・個人レポート</a><br><a href="reference/ai-policy.html">生成AI利用ルール</a></p></div></div>
+<h2>成績評価</h2>
+<p>Webアプリケーション開発では、<b>チームとして完成させた成果</b>と、<b>各自が演習で行ったこと・理解したこと</b>の両方を評価します。</p>
+<table><tr><th>評価項目</th><th>割合</th><th>評価単位</th></tr><tr><td><b>最終Webアプリケーション</b></td><td><b>50%</b></td><td>チーム</td></tr><tr><td><b>各回の個人レポート</b></td><td><b>50%</b></td><td>個人</td></tr><tr><td><b>合計</b></td><td><b>100%</b></td><td>—</td></tr></table>
+<div class="notice"><b>個人レポート：</b> 第1回〜第3回の各回終了後に提出します。自分が担当・実施した作業と、その回の演習内容をどのように理解したかを、自分の言葉で説明してください。</div>
+<div class="warn notice"><b>出席について：</b> 本テーマは全3回の演習で構成されています。原則として3回すべてに出席してください。<b>無断欠席が2回以上の場合は、評価対象としません。</b> やむを得ない事情により欠席する場合は、原則として事前に担当教員へ連絡してください。必要に応じて個別に対応します。</div>
+<h2>最終成果物</h2><div class="flow">Team Leader's GitHub Repository
+        ↓
+GitHub Codespaces
+        ↓
+Flask + SQLite（1つの共有インスタンス）
+        ↓
+Public URL
+        ↓
+提出ハブ
+        ↓
+他チームが Access → Post / Like / Reply / Vote</div>
+<div class="warn notice"><b>一時公開：</b> CodespacesのPublic portは本番運用環境ではありません。授業内の共有用です。個人情報・学籍番号・メールアドレス・パスワード・秘密情報・実データは入力しません。</div></main><footer><div class="wrap">情報科学演習III — Webアプリケーション開発 / 授業用教材</div></footer></body></html>

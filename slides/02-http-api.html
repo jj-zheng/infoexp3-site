@@ -1,0 +1,45 @@
+<!doctype html><html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>第2回　FrontendとBackendをHTTP/APIでつなぐ | 情報科学演習III</title><link rel="stylesheet" href="../assets/slides.css"></head><body><main class="deck"><section class="slide-page cover" data-title="第2回　FrontendとBackendをHTTP/APIでつなぐ"><div class="hint">← → キーで移動</div><div class="eyebrow">情報科学演習III</div><h1>Webアプリケーション開発</h1><div class="subtitle">第2回　FrontendとBackendをHTTP/APIでつなぐ</div><div class="author">鄭</div></section><section class="slide-page " data-title="今日のゴール"><div class="hint">← → キーで移動</div><p class="big">「投稿」クリックから画面更新までを追跡し、<span class="accent">Frontend / HTTP / API / Backend</span> の役割を説明する。</p><div class="flow content">Browser → JavaScript → HTTP → Flask → JSON → JavaScript → Browser</div></section><section class="slide-page " data-title="150分のロードマップ"><div class="hint">← → キーで移動</div><div class="three content"><div class="card"><h3>前半</h3><p>Frontend / Backend<br>HTTP / JSON</p></div><div class="card"><h3>中盤</h3><p>curl / API<br>fetch / Network</p></div><div class="card"><h3>後半</h3><p>APIを使った変更<br>PR / Review</p></div></div></section><section class="slide-page " data-title="第1回：外から見たMiniBoard"><div class="hint">← → キーで移動</div><div class="flow content center" style="min-width:58vw">Browser
+   ↓
+Codespaces Port
+   ↓
+Container
+   ↓
+???
+   ↓
+投稿が保存される</div><p class="big center">今日は <span class="accent">???</span> の中を追います。</p></section><section class="slide-page " data-title="Frontend / Backend"><div class="hint">← → キーで移動</div><div class="cols content"><div class="card"><h3>Frontend</h3><p>ユーザが見る・操作する部分</p><p><code>templates/index.html</code><br><code>static/app.js</code><br><code>static/style.css</code></p></div><div class="card"><h3>Backend</h3><p>Requestを受けて処理しResponseを返す部分</p><p><code>app.py</code><br>Python / Flask</p></div></div></section><section class="slide-page " data-title="HTTPの最小モデル"><div class="hint">← → キーで移動</div><div class="flow content center" style="min-width:65vw">Client / Browser                         Server / Flask
+      │   Request: GET /api/messages            │
+      ├────────────────────────────────────────▶│
+      │          Response: 200 OK + JSON         │
+      │◀────────────────────────────────────────┤</div><p class="center content">HTTPはClientとServerがやり取りするためのルール。</p></section><section class="slide-page " data-title="Method / URL / Status"><div class="hint">← → キーで移動</div><div class="content"><table style="width:100%;font-size:.9em"><tr><th>見るもの</th><th>例</th><th>意味</th></tr><tr><td>Method</td><td>GET / POST</td><td>何をしたいか</td></tr><tr><td>URL</td><td>/api/messages</td><td>どのresourceか</td></tr><tr><td>Status</td><td>200 / 201 / 400 / 404</td><td>結果はどうだったか</td></tr></table></div></section><section class="slide-page " data-title="MiniBoardのAPI Contract"><div class="hint">← → キーで移動</div><div class="content"><table style="width:100%;font-size:.86em"><tr><th>Method</th><th>URL</th><th>役割</th></tr><tr><td>GET</td><td><code>/api/messages</code></td><td>投稿一覧</td></tr><tr><td>POST</td><td><code>/api/messages</code></td><td>新規投稿</td></tr><tr><td>PUT</td><td><code>/api/messages/&lt;id&gt;</code></td><td>投稿更新</td></tr><tr><td>DELETE</td><td><code>/api/messages/&lt;id&gt;</code></td><td>投稿削除</td></tr></table><div class="notice"><b>API Contract：</b>FrontendとBackendの「約束」。URL・Method・JSON形式を共有する。</div></div></section><section class="slide-page " data-title="JSON：データの表現"><div class="hint">← → キーで移動</div><div class="content"><pre><code>{
+  "id": 4,
+  "name": "docker",
+  "message": "Hello from Docker!",
+  "created_at": "..."
+}</code></pre><p>HTMLそのものではなく、FrontendとBackendの間では<span class="accent">データ</span>をJSONとしてやり取りできます。</p></div></section><section class="slide-page " data-title="まずAPIだけを見る"><div class="hint">← → キーで移動</div><div class="content"><p>MiniBoardを起動した状態で、別Terminalから：</p><pre><code>curl http://localhost:5000/api/messages</code></pre><p>Browserを使わず、Backend APIからJSONが返ることを確認。</p><div class="notice">切り分けの基本：<b>UIがおかしいのか、APIがおかしいのか。</b></div></div></section><section class="slide-page " data-title="POSTをcurlで送る"><div class="hint">← → キーで移動</div><div class="content"><pre><code>curl -X POST http://localhost:5000/api/messages   -H "Content-Type: application/json"   -d '{"name":"api-test","message":"Hello API"}'</code></pre><p>Browserをrefreshすると、この投稿が見えるはず。</p><div class="ok notice">Browserとcurlは別のClientだが、同じBackendへRequestを送っている。</div></div></section><section class="slide-page " data-title="Flask Routeを読む"><div class="hint">← → キーで移動</div><div class="content"><pre><code>@app.get("/api/messages")
+def get_messages():
+    ...
+    return jsonify(...)
+
+@app.post("/api/messages")
+def create_message():
+    data = request.get_json(...)
+    ...
+    return jsonify(...), 201</code></pre><p><code>@app.get</code> / <code>@app.post</code> がHTTP RequestとPython functionを結び付ける。</p></div></section><section class="slide-page " data-title="Frontendのfetchを読む"><div class="hint">← → キーで移動</div><div class="content"><pre><code>await fetch('/api/messages', {
+  method: 'POST',
+  headers: {'Content-Type': 'application/json'},
+  body: JSON.stringify({name, message})
+});</code></pre><p>JavaScriptがBrowserからHTTP Requestを送っている。</p></div></section><section class="slide-page " data-title="Requestの旅"><div class="hint">← → キーで移動</div><div class="flow content center" style="min-width:62vw">① User clicks 投稿
+        ↓
+② JavaScript submit handler
+        ↓
+③ POST /api/messages + JSON
+        ↓
+④ Flask route / Python processing
+        ↓
+⑤ HTTP Response + JSON
+        ↓
+⑥ GET /api/messages
+        ↓
+⑦ DOMを更新 → 投稿が見える</div></section><section class="slide-page " data-title="Browser DevToolsで確認"><div class="hint">← → キーで移動</div><div class="content"><p>BrowserのDeveloper Tools → <b>Network</b> を開き、投稿する。</p><div class="cols"><div class="card"><h3>見る</h3><p>Request URL<br>Method<br>Status Code</p></div><div class="card"><h3>さらに見る</h3><p>Request Payload<br>Response<br>Timing</p></div></div><div class="notice">コードを読むだけでなく、実際に流れたHTTPを観察する。</div></div></section><section class="slide-page " data-title="エラーもResponse"><div class="hint">← → キーで移動</div><div class="content"><p>name または message を空にしてAPIへ送ると？</p><pre><code>{"error":"name and message are required"}</code></pre><p>Backendは <code>400</code> を返します。</p><div class="warn notice"><b>成功だけでなく、失敗の伝え方もAPI Contractの一部。</b></div></div></section><section class="slide-page " data-title="Hands-on：小さく変更する"><div class="hint">← → キーで移動</div><div class="content"><p class="big">API Contractを壊さず、Frontendの体験を1つ改善。</p><div class="cols"><div class="card"><h3>例</h3><p>文字数表示 / 空入力防止 / 投稿成功表示 / refresh button</p></div><div class="card"><h3>条件</h3><p>変更前後を確認し、どのRequestに影響するか説明</p></div></div></div></section><section class="slide-page " data-title="Parallel Work と API Contract"><div class="hint">← → キーで移動</div><div class="content"><div class="cols"><div class="card"><h3>Pair A</h3><p>Frontend<br>HTML / JS / UX</p></div><div class="card"><h3>Pair B</h3><p>Backend<br>validation / response</p></div></div><div class="notice"><b>勝手にURLやJSON形式を変えない。</b>変更が必要ならPRで影響範囲を説明する。</div></div></section><section class="slide-page " data-title="Checkpoint"><div class="hint">← → キーで移動</div><div class="content check"><p>□ GETをcurlで確認した</p><p>□ POSTをcurlで確認した</p><p>□ Browser NetworkでRequestを見た</p><p>□ Flask routeとfetchの対応を説明できる</p><p>□ Status codeを1つ以上確認した</p><p>□ Teamの変更をPRでmergeした</p></div></section><section class="slide-page " data-title="次回"><div class="hint">← → キーで移動</div><div class="eyebrow">第3回</div><div class="hook">投稿は、どこに残っている？</div><div class="flow content center" style="min-width:58vw">Browser → API → Flask → SQLite
+                     ↓
+                 data/miniboard.db</div><p class="big center">最後は「残す」→「発展させる」→「公開する」。</p></section><section class="slide-page " data-title="Exit Ticket"><div class="hint">← → キーで移動</div><div class="content"><ol><li>GETとPOSTの違いをMiniBoardの例で説明。</li><li>JSONはどこからどこへ流れた？</li><li>「投稿」クリックから画面更新までを5〜7段階で説明。</li><li>API Contractを勝手に変えると何が起こる？</li></ol></div></section></main><div class="progress"></div><div class="controls"><a href="../index.html">ホーム</a><button data-prev>Previous slide</button><button data-next>Next slide</button><button data-full>Toggle fullscreen</button><button data-presenter>Open presenter view</button><span class="counter"></span></div><script src="../assets/slides.js"></script></body></html>
