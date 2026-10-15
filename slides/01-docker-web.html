@@ -25,9 +25,27 @@ docker ps -a</code></pre><p><code>--rm</code> を付けなければ、終了し�
 │    │                  │      │
 │    │    nginx :80     │      │
 │    └──────────────────┘      │
-└──────────────────────────────┘</div><p class="big center"><b>BrowserはPortを通して、Container内のWebサーバにアクセスしている。</b></p><div class="notice center"><code>Browser ── HTTP ──▶ Web Server</code><br>通信の中身（HTTP）は<span class="accent">第2回</span>で詳しく見ます。</br></div></div></section><section class="slide-page" data-title="ここからTeamで開発">
+└──────────────────────────────┘</div><p class="big center"><b>BrowserはPortを通して、Container内のWebサーバにアクセスしている。</b></p><div class="notice center"><code>Browser ── HTTP ──▶ Web Server</code><br/>通信の中身（HTTP）は<span class="accent">第2回</span>で詳しく見ます。</div></div></section><section class="slide-page" data-title="第0回のFlaskを停止">
+<div class="hint">← → キーで移動</div>
+<h2>第0回のFlaskを停止</h2>
+<p class="big">MiniBoardをDockerで起動する前に、Port 5000を空けておきます。</p>
+<div class="cols content">
+<div class="card">
+<h3>実行中のTerminalが残っている場合</h3>
+<p><code>python app.py</code> を実行したTerminalを開きます。</p>
+<pre><code>Ctrl + C</code></pre>
+<p>これでFlaskを停止できます。</p>
+</div>
+<div class="card">
+<h3>どのTerminalか分からない場合</h3>
+<p>次のコマンドで確認します。</p>
+<pre><code>ps aux | grep app.py</code></pre>
+<p><code>python app.py</code> が表示された場合は、教員・TAに確認してください。</p>
+</div>
+</div>
+<div class="notice content"><b>なぜ？</b> 第0回のFlaskとDocker Containerが同じHost側のPort 5000を同時に使用できないためです。</div>
+</section><section class="slide-page" data-title="ここからTeamで開発">
 <div class="hint">← → キーで移動</div><h2>ここからTeamで開発</h2>
-
 <p class="big">ここからは、TeamごとにMiniBoardを開発します。</p>
 <div class="three content">
 <div class="card">
@@ -53,7 +71,7 @@ RUN pip install --no-cache-dir -r requirements.txt
 COPY . .
 EXPOSE 5000
 CMD ["python", "app.py"]</code></pre><p><b>Teamで1行ずつ：</b>「この行がないと何が困る？」まで説明してみる。</p></div></section><section class="slide-page" data-title="Hands-on 3：MiniBoard ImageをBuild"><div class="hint">← → キーで移動</div><h2>Hands-on 3：MiniBoard ImageをBuild</h2><p class="big">DockerfileからImageを作る。</p><div class="content"><pre><code>docker build -t miniboard .
-docker images</code></pre><p><b>操作：</b>Starterの <code>Dockerfile</code> があるディレクトリで実行する。</p><div class="notice">期待される結果：Buildが成功し、Image一覧に <code>miniboard</code> が現れる。</div><p><b>確認：</b><code>-t miniboard</code> と最後の <code>.</code> は何を指定している？</p></div></section><section class="slide-page" data-title="Hands-on 4：MiniBoardをRun"><div class="hint">← → キーで移動</div><h2>Hands-on 4：MiniBoardをRun</h2><p class="big">作ったImageからContainerを起動する。</p><div class="content"><pre><code>docker run --name miniboard -p 5000:5000 miniboard</code></pre><p><b>事前確認：</b>第0回の <code>python app.py</code> が動いていたら <code>Ctrl+C</code> で停止。Port 5000の競合を避ける。</p><div class="notice">期待される結果：Flaskが起動し、CodespacesのPortsタブに <code>5000</code> が現れる。</div><p><b>確認：</b>ここではPythonを直接起動する代わりに、何を実行している？</p></div></section><section class="slide-page" data-title="5000:5000 は何？"><div class="hint">← → キーで移動</div><h2>5000:5000 は何？</h2><div class="cols content"><div><pre><code>-p 5000:5000</code></pre><p><b>左：</b>Codespace側のPort<br/><b>右：</b>Container側のPort</p></div><div class="flow">Browser
+docker images</code></pre><p><b>操作：</b>Starterの <code>Dockerfile</code> があるディレクトリで実行する。</p><div class="notice">期待される結果：Buildが成功し、Image一覧に <code>miniboard</code> が現れる。</div><p><b>確認：</b><code>-t miniboard</code> と最後の <code>.</code> は何を指定している？</p></div></section><section class="slide-page" data-title="Hands-on 4：MiniBoardをRun"><div class="hint">← → キーで移動</div><h2>Hands-on 4：MiniBoardをRun</h2><p class="big">作ったImageからContainerを起動する。</p><div class="content"><pre><code>docker run --name miniboard -p 5000:5000 miniboard</code></pre><p><b>事前確認：</b> 第0回の <code>python app.py</code> が停止していることを確認する。</p><div class="notice">期待される結果：Flaskが起動し、CodespacesのPortsタブに <code>5000</code> が現れる。</div><p><b>確認：</b>ここではPythonを直接起動する代わりに、何を実行している？</p><div class="warn notice"><b>address already in use</b> と表示されたら、Port 5000がすでに使用されています。第0回の <code>python app.py</code> が残っていないか確認してください。</div></div></section><section class="slide-page" data-title="5000:5000 は何？"><div class="hint">← → キーで移動</div><h2>5000:5000 は何？</h2><div class="cols content"><div><pre><code>-p 5000:5000</code></pre><p><b>左：</b>Codespace側のPort<br/><b>右：</b>Container側のPort</p></div><div class="flow">Browser
    ↓
 Codespaces :5000
    ↓  -p 5000:5000
