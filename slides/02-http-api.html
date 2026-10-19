@@ -59,7 +59,25 @@ Content-Type: application/json
   "name": "docker",
   "message": "Hello from Docker!",
   "created_at": "..."
-}</code></pre><p>HTMLそのものではなく、FrontendとBackendの間では<span class="accent">データ</span>をJSONとしてやり取りできます。</p></div><div class="notice content">上はJSONの<b>例</b>です。実際のフィールド名・形式は <code>curl</code> の結果と <code>app.py</code> で確認してください。</div></section><section class="slide-page" data-title="ここからIndividual Hands-on"><div class="hint">← → キーで移動</div><h2>ここからIndividual Hands-on</h2><div class="content"><p class="big"><b>全員が自分のCodespaceで操作</b>します。</p><div class="flow center">APIを呼ぶ → 結果を見る → コードと対応づける</div><div class="notice">MiniBoardは起動したままにします。<code>curl</code> は<b>新しいTerminal</b>で実行してください。</div></div></section><section class="slide-page" data-title="まずAPIだけを見る"><div class="hint">← → キーで移動</div><h2>まずAPIだけを見る</h2><div class="content"><p>新しいTerminalで実行。Status（例：200）とResponse Body（JSON）を分けて確認する。</p><pre><code>curl -i http://localhost:5000/api/messages</code></pre><p>Browserを使わず、Backend APIからJSONが返ることを確認。</p><div class="notice">切り分けの基本：<b>UIがおかしいのか、APIがおかしいのか。</b></div></div></section><section class="slide-page" data-title="POSTをcurlで送る"><div class="hint">← → キーで移動</div><h2>POSTをcurlで送る</h2><div class="content"><pre><code>curl -i -X POST http://localhost:5000/api/messages \
+}</code></pre><p>HTMLそのものではなく、FrontendとBackendの間では<span class="accent">データ</span>をJSONとしてやり取りできます。</p></div><div class="notice content">上はJSONの<b>例</b>です。実際のフィールド名・形式は <code>curl</code> の結果と <code>app.py</code> で確認してください。</div></section><section class="slide-page" data-title="ここからIndividual Hands-on"><div class="hint">← → キーで移動</div><h2>ここからIndividual Hands-on</h2><div class="content"><p class="big"><b>全員が自分のCodespaceで操作</b>します。</p><div class="flow center">APIを呼ぶ → 結果を見る → コードと対応づける</div><div class="notice">MiniBoardは起動したままにします。<code>curl</code> は<b>新しいTerminal</b>で実行してください。</div></div></section><section class="slide-page" data-title="Hands-on 2：GETとlocalhost"><div class="hint">← → キーで移動</div><h2>Hands-on 2：GETとlocalhost</h2><div class="content"><p>Codespaceの<strong>新しいTerminal</strong>で実行し、StatusとJSONを確認します。</p>
+<pre><code>curl -i http://localhost:5000/api/messages</code></pre>
+<div class="cols">
+<div class="card"><h3>Requestはどこへ？</h3>
+<div style="font-family:monospace;white-space:pre-line;line-height:1.65">Codespace内のcurl
+↓ localhost:5000
+Docker Port Mapping（5000:5000）
+↓ Container :5000
+Flask（app.py）</div>
+</div>
+<div class="card"><h3>ここでのlocalhost</h3>
+<p><strong>curlを実行しているCodespace自身</strong>を指します。</p>
+<p>手元のPC（Macなど）やGitHub Pagesではありません。</p>
+<p><strong>確認：</strong><code>200 OK</code> とResponse Body（例：<code>[]</code>）を区別する。</p>
+</div>
+</div>
+<div class="notice"><b>ポイント：</b><code>localhost</code> はコマンドを実行する環境自身。PCのTerminalで実行すると、そのPCを指します。</div>
+<p><b>問い：</b>同じコマンドを自分のPCで実行すると、同じMiniBoardにアクセスできる？</p>
+</div></section><section class="slide-page" data-title="POSTをcurlで送る"><div class="hint">← → キーで移動</div><h2>POSTをcurlで送る</h2><div class="content"><pre><code>curl -i -X POST http://localhost:5000/api/messages \
   -H "Content-Type: application/json" \
   -d '{"name":"api-test","message":"Hello API"}'</code></pre><p>ResponseのStatusとJSONを確認。次にBrowserを再読み込みして投稿が見えるか確かめる。</p><div class="ok notice">Browserとcurlは別のClientだが、同じBackendへRequestを送っている。</div></div></section><section class="slide-page" data-title="Flask Routeを読む"><div class="hint">← → キーで移動</div><h2>Flask Routeを読む</h2><div class="content"><pre><code>@app.get("/api/messages")
 def get_messages():
