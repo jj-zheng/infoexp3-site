@@ -29,7 +29,32 @@ Container
       │   Request: GET /api/messages            │
       ├────────────────────────────────────────▶│
       │          Response: 200 OK + JSON         │
-      │◀────────────────────────────────────────┤</div><p class="center content">HTTPはClientとServerがやり取りするためのルール。</p></section><section class="slide-page" data-title="Method / URL / Status"><div class="hint">← → キーで移動</div><h2>Method / URL / Status</h2><div class="content"><table style="width:100%;font-size:.9em"><tr><th>見るもの</th><th>例</th><th>意味</th></tr><tr><td>Method</td><td>GET / POST</td><td>何をしたいか</td></tr><tr><td>URL</td><td>/api/messages</td><td>どのresourceか</td></tr><tr><td>Status</td><td>200 / 201 / 400 / 404</td><td>結果はどうだったか</td></tr></table></div></section><section class="slide-page" data-title="MiniBoardのAPI Contract"><div class="hint">← → キーで移動</div><h2>MiniBoardのAPI Contract</h2><div class="content"><table style="width:100%;font-size:.86em"><tr><th>Method</th><th>URL</th><th>役割</th></tr><tr><td>GET</td><td><code>/api/messages</code></td><td>投稿一覧</td></tr><tr><td>POST</td><td><code>/api/messages</code></td><td>新規投稿</td></tr><tr><td>PUT</td><td><code>/api/messages/&lt;id&gt;</code></td><td>投稿更新</td></tr><tr><td>DELETE</td><td><code>/api/messages/&lt;id&gt;</code></td><td>投稿削除</td></tr></table><div class="notice"><b>API Contract：</b>FrontendとBackendの「約束」。URL・Method・JSON形式を共有する。</div></div></section><section class="slide-page" data-title="JSON：データの表現"><div class="hint">← → キーで移動</div><h2>JSON：データの表現</h2><div class="content"><pre><code>{
+      │◀────────────────────────────────────────┤</div><p class="center content">HTTPはClientとServerがやり取りするためのルール。</p></section><section class="slide-page" data-title="Method / URL / Status"><div class="hint">← → キーで移動</div><h2>Method / URL / Status</h2><div class="content">
+<p class="big">HTTPは <b>Request（依頼）</b> と <b>Response（結果）</b> のやり取り。</p>
+<div class="cols">
+<div class="card">
+<h3>① Request：何をしてほしい？</h3>
+<pre><code>GET /api/messages HTTP/1.1
+Host: localhost:5000</code></pre>
+<p><b>Method：</b><code>GET</code> → 投稿一覧を取得</p>
+<p><b>URL：</b><code>/api/messages</code> → 対象のAPI</p>
+<p><b>HTTP/1.1：</b>通信のプロトコルバージョン</p>
+</div>
+<div class="card">
+<h3>② Response：結果はどうだった？</h3>
+<pre><code>HTTP/1.1 200 OK
+Content-Type: application/json
+
+[{"id":1,"name":"Alice",
+  "message":"Hello!"}]</code></pre>
+<p><b>Status：</b><code>200 OK</code> → 取得成功</p>
+<p><b>Body：</b>投稿データ（JSON）</p>
+</div>
+</div>
+<div class="notice"><b>ほかのStatus例：</b><code>201 Created</code>（作成成功）／<code>400 Bad Request</code>（入力に問題）／<code>404 Not Found</code>（対象なし）</div>
+<div class="notice"><b>問い：</b><code>GET /api/messages</code> と <code>POST /api/messages</code> は、URLが同じなのに、なぜ処理が違う？</div>
+<p class="muted">※ 上のHTTPメッセージとJSONは説明用の例です。実際のResponseは後のcurl実習で確認します。</p>
+</div></section><section class="slide-page" data-title="MiniBoardのAPI Contract"><div class="hint">← → キーで移動</div><h2>MiniBoardのAPI Contract</h2><div class="content"><table style="width:100%;font-size:.86em"><tr><th>Method</th><th>URL</th><th>役割</th></tr><tr><td>GET</td><td><code>/api/messages</code></td><td>投稿一覧</td></tr><tr><td>POST</td><td><code>/api/messages</code></td><td>新規投稿</td></tr><tr><td>PUT</td><td><code>/api/messages/&lt;id&gt;</code></td><td>投稿更新</td></tr><tr><td>DELETE</td><td><code>/api/messages/&lt;id&gt;</code></td><td>投稿削除</td></tr></table><div class="notice"><b>API Contract：</b>FrontendとBackendの「約束」。URL・Method・JSON形式を共有する。</div></div></section><section class="slide-page" data-title="JSON：データの表現"><div class="hint">← → キーで移動</div><h2>JSON：データの表現</h2><div class="content"><pre><code>{
   "id": 4,
   "name": "docker",
   "message": "Hello from Docker!",
