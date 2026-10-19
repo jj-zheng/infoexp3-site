@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+
 <html lang="ja"><head><meta charset="utf-8"/><meta content="width=device-width,initial-scale=1" name="viewport"/><title>第2回　FrontendとBackendをHTTP/APIでつなぐ | 情報科学演習III</title><link href="../assets/slides.css" rel="stylesheet"/></head><body><main class="deck"><section class="slide-page cover" data-title="第2回　FrontendとBackendをHTTP/APIでつなぐ"><div class="hint">← → キーで移動</div><div class="eyebrow">情報科学演習III</div><h1>Webアプリケーション開発</h1><div class="subtitle">第2回　FrontendとBackendをHTTP/APIでつなぐ</div><div class="author">鄭</div></section><section class="slide-page" data-title="今日のゴール"><div class="hint">← → キーで移動</div><h2>今日のゴール</h2><p class="big">「投稿」クリックから画面更新までを追跡し、<span class="accent">Frontend / HTTP / API / Backend</span> の役割を説明する。</p><div class="flow content">Browser → JavaScript → HTTP → Flask → JSON → JavaScript → Browser</div></section><section class="slide-page" data-title="150分のロードマップ"><div class="hint">← → キーで移動</div><h2>150分のロードマップ</h2><div class="three content"><div class="card"><h3>0–35分｜理解</h3><p>Frontend / Backend<br/>HTTP / JSON / API</p></div><div class="card"><h3>35–90分｜各自で確認</h3><p>GET / POST<br/>Route / fetch / Network</p></div><div class="card"><h3>90–150分｜Team開発</h3><p>小さな改善<br/>PR / Review / 報告</p></div></div></section><section class="slide-page" data-title="第1回からの準備"><div class="hint">← → キーで移動</div><h2>第1回からの準備</h2><div class="content"><p class="big">まず、<b>各自のCodespace</b>でMiniBoardを起動します。</p><pre><code>docker ps -a
 # 第1回のminiboard Containerが残っている場合
 docker start miniboard
@@ -10,7 +11,21 @@ Container
    ↓
 ???
    ↓
-投稿が保存される</div><p class="big center">今日は <span class="accent">???</span> の中を追います。</p></section><section class="slide-page" data-title="Frontend / Backend"><div class="hint">← → キーで移動</div><h2>Frontend / Backend</h2><div class="cols content"><div class="card"><h3>Frontend</h3><p>ユーザが見る・操作する部分</p><p><code>templates/index.html</code><br/><code>static/app.js</code><br/><code>static/style.css</code></p></div><div class="card"><h3>Backend</h3><p>Requestを受けて処理しResponseを返す部分</p><p><code>app.py</code><br/>Python / Flask</p></div></div></section><section class="slide-page" data-title="Hands-on 1：コードの場所を探す"><div class="hint">← → キーで移動</div><h2>Hands-on 1：コードの場所を探す</h2><div class="content"><p class="big">各自のCodespaceで、次のファイルを開いて役割を確認します。</p><div class="cols"><div class="card"><h3>Frontend</h3><p><code>templates/index.html</code><br/><code>static/app.js</code><br/><code>static/style.css</code></p></div><div class="card"><h3>Backend</h3><p><code>app.py</code></p></div></div><div class="notice">問い：投稿ボタンはどのファイルにある？ <code>/api/messages</code> はどこに書かれている？</div></div></section><section class="slide-page" data-title="HTTPの最小モデル"><div class="hint">← → キーで移動</div><h2>HTTPの最小モデル</h2><div class="flow content center" style="min-width:65vw">Client / Browser                         Server / Flask
+投稿が保存される</div><p class="big center">今日は <span class="accent">???</span> の中を追います。</p></section><section class="slide-page" data-title="Frontend / Backend"><div class="hint">← → キーで移動</div><h2>Frontend / Backend</h2><div class="cols content"><div class="card"><h3>Frontend</h3><p>ユーザが見る・操作する部分</p><p><code>templates/index.html</code><br/><code>static/app.js</code><br/><code>static/style.css</code></p></div><div class="card"><h3>Backend</h3><p>Requestを受けて処理しResponseを返す部分</p><p><code>app.py</code><br/>Python / Flask</p></div></div></section><section class="slide-page" data-title="Hands-on 1：コードの場所を探す"><div class="hint">← → キーで移動</div><h2>Hands-on 1：コードの場所を探す</h2><div class="content">
+<p class="big">各自のCodespaceでファイルを開き、何を担当しているか確認します。</p>
+<div class="cols">
+<div class="card"><h3>Frontend（ブラウザ側）</h3>
+<p><code>templates/index.html</code><br/><small>画面の構造：入力欄・投稿ボタン</small></p>
+<p><code>static/style.css</code><br/><small>画面の見た目：色・文字・配置</small></p>
+<p><code>static/app.js</code><br/><small>画面の動作：クリック処理・API通信</small></p>
+</div>
+<div class="card"><h3>Backend（サーバ側）</h3>
+<p><code>app.py</code><br/><small>HTTP Requestを受け、投稿の取得・登録などを処理する</small></p>
+<div class="notice">FlaskはHTML等も配信しますが、JavaScriptはブラウザ側で実行されます。</div>
+</div>
+</div>
+<div class="notice"><b>問い：</b> ① 投稿ボタンはどこで定義？　② クリック後の処理はどこ？　③ <code>/api/messages</code> を処理するFlaskコードはどこ？</div>
+</div></section><section class="slide-page" data-title="HTTPの最小モデル"><div class="hint">← → キーで移動</div><h2>HTTPの最小モデル</h2><div class="flow content center" style="min-width:65vw">Client / Browser                         Server / Flask
       │   Request: GET /api/messages            │
       ├────────────────────────────────────────▶│
       │          Response: 200 OK + JSON         │
